@@ -2,9 +2,9 @@
 [*more screenshots and video*](SHOWCASE.MD)
 
 <div align="center">
-<a href="https://github.com/bbilly1/tilefy" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-docker.png" alt="tubearchivist-docker" title="Tube Archivist Docker Pulls" height="50" width="190"/></a>
-<a href="https://github.com/bbilly1/tilefy" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-github-star.png" alt="tubearchivist-github-star" title="Tube Archivist GitHub Stars" height="50" width="190"/></a>
-<a href="https://github.com/bbilly1/tilefy" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-github-forks.png" alt="tubearchivist-github-forks" title="Tube Archivist GitHub Forks" height="50" width="190"/></a>
+<a href="https://hub.docker.com/r/bbilly1/tubearchivist" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-docker.png" alt="tubearchivist-docker" title="Tube Archivist Docker Pulls" height="50" width="190"/></a>
+<a href="https://github.com/tubearchivist/tubearchivist/stargazers" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-github-star.png" alt="tubearchivist-github-star" title="Tube Archivist GitHub Stars" height="50" width="190"/></a>
+<a href="https://github.com/tubearchivist/tubearchivist/forks" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-github-forks.png" alt="tubearchivist-github-forks" title="Tube Archivist GitHub Forks" height="50" width="190"/></a>
 <a href="https://www.tubearchivist.com/discord" target="_blank"><img src="https://tiles.tilefy.me/t/tubearchivist-discord.png" alt="tubearchivist-discord" title="TA Discord Server Members" height="50" width="190"/></a>
 </div>
 
@@ -25,7 +25,7 @@
 ## Core functionality
 Once your YouTube video collection grows, it becomes hard to search and find a specific video. That's where Tube Archivist comes in: By indexing your video collection with metadata from YouTube, you can organize, search and enjoy your archived YouTube videos without hassle offline through a convenient web interface. This includes:  
 * Subscribe to your favorite YouTube channels
-* Download Videos using **yt-dlp**
+* Download Videos using **[yt-dlp](https://github.com/yt-dlp/yt-dlp)**
 * Index and make videos searchable
 * Play videos
 * Keep track of viewed and unviewed videos
@@ -34,30 +34,32 @@ Once your YouTube video collection grows, it becomes hard to search and find a s
 - [Discord](https://www.tubearchivist.com/discord): Connect with us on our Discord server.
 - [r/TubeArchivist](https://www.reddit.com/r/TubeArchivist/): Join our Subreddit.
 - [Browser Extension](https://github.com/tubearchivist/browser-extension) Tube Archivist Companion, for [Firefox](https://addons.mozilla.org/addon/tubearchivist-companion/) and [Chrome](https://chrome.google.com/webstore/detail/tubearchivist-companion/jjnkmicfnfojkkgobdfeieblocadmcie)
-- [Jellyfin Integration](https://github.com/tubearchivist/tubearchivist-jf): Add your videos to Jellyfin.
-- [Tube Archivist Metrics](https://github.com/tubearchivist/tubearchivist-metrics) to create statistics in Prometheus/OpenMetrics format.  
+- [Jellyfin Plugin](https://github.com/tubearchivist/tubearchivist-jf-plugin): Add your videos to Jellyfin
+- [Plex Plugin](https://github.com/tubearchivist/tubearchivist-plex): Add your videos to Plex
 
 ## Installing
 For minimal system requirements, the Tube Archivist stack needs around 2GB of available memory for a small testing setup and around 4GB of available memory for a mid to large sized installation. Minimal with dual core with 4 threads, better quad core plus. 
 This project requires docker. Ensure it is installed and running on your system.  
 
-The documentation has additional user provided instructions for [Unraid](https://docs.tubearchivist.com/installation/unraid/), [Synology](https://docs.tubearchivist.com/installation/synology/), [Podman](https://docs.tubearchivist.com/installation/podman/) and [True NAS](https://docs.tubearchivist.com/installation/truenas-scale/).
+The documentation has additional user provided instructions for [Unraid](https://docs.tubearchivist.com/installation/unraid/), [Synology](https://docs.tubearchivist.com/installation/synology/) and [Podman](https://docs.tubearchivist.com/installation/podman/).
 
 The instructions here should get you up and running quickly, for Docker beginners and full explanation about each environment variable, see the [docs](https://docs.tubearchivist.com/installation/docker-compose/).
 
 Take a look at the example [docker-compose.yml](https://github.com/tubearchivist/tubearchivist/blob/master/docker-compose.yml) and configure the required environment variables.
 
+All environment variables are explained in detail in the docs [here](https://docs.tubearchivist.com/installation/env-vars/).
+
 **TubeArchivist**:  
 | Environment Var | Value |  |
 | ----------- | ----------- | ----------- |
-| TA_HOST | Server IP or hostname | Required |
+| TA_HOST | Server IP or hostname `http://tubearchivist.local:8000` | Required |
 | TA_USERNAME | Initial username when logging into TA | Required |
 | TA_PASSWORD | Initial password when logging into TA | Required |
 | ELASTIC_PASSWORD | Password for ElasticSearch | Required |
-| REDIS_HOST | Hostname for Redis | Required |
+| REDIS_CON | Connection string to Redis | Required |
 | TZ | Set your timezone for the scheduler | Required |
 | TA_PORT | Overwrite Nginx port | Optional |
-| TA_UWSGI_PORT | Overwrite container internal uwsgi port | Optional |
+| TA_BACKEND_PORT | Overwrite container internal backend server port | Optional |
 | TA_ENABLE_AUTH_PROXY | Enables support for forwarding auth in reverse proxies | [Read more](https://docs.tubearchivist.com/configuration/forward-auth/) |
 | TA_AUTH_PROXY_USERNAME_HEADER | Header containing username to log in | Optional |
 | TA_AUTH_PROXY_LOGOUT_URL | Logout URL for forwarded auth | Optional |
@@ -67,10 +69,9 @@ Take a look at the example [docker-compose.yml](https://github.com/tubearchivist
 | HOST_GID | Allow TA to own the video files instead of container user | Optional |
 | HOST_UID | Allow TA to own the video files instead of container user | Optional |
 | ELASTIC_USER | Change the default ElasticSearch user | Optional |
-| REDIS_PORT | Port that Redis runs on | Optional |
 | TA_LDAP | Configure TA to use LDAP Authentication | [Read more](https://docs.tubearchivist.com/configuration/ldap/) |
-| ENABLE_CAST | Enable casting support | [Read more](https://docs.tubearchivist.com/configuration/cast/) |
-| DJANGO_DEBUG | Return additional error messages, for debug only |  |
+| DISABLE_STATIC_AUTH | Remove authentication from media files, (Google Cast...) | [Read more](https://docs.tubearchivist.com/installation/env-vars/#disable_static_auth) |
+| DJANGO_DEBUG | Return additional error messages, for debug only | Optional |
 
 **ElasticSearch**  
 | Environment Var | Value | State |
@@ -148,10 +149,9 @@ This can happen if you have nested virtualizations, e.g. LXC running Docker in P
 ## Roadmap
 We have come far, nonetheless we are not short of ideas on how to improve and extend this project. Issues waiting for you to be tackled in no particular order:
 
-- [ ] User roles
 - [ ] Audio download
 - [ ] Podcast mode to serve channel as mp3
-- [ ] User created playlists, random and repeat controls ([#108](https://github.com/tubearchivist/tubearchivist/issues/108), [#220](https://github.com/tubearchivist/tubearchivist/issues/220))
+- [ ] Random and repeat controls ([#108](https://github.com/tubearchivist/tubearchivist/issues/108), [#220](https://github.com/tubearchivist/tubearchivist/issues/220))
 - [ ] Auto play or play next link ([#226](https://github.com/tubearchivist/tubearchivist/issues/226))
 - [ ] Multi language support
 - [ ] Show total video downloaded vs total videos available in channel
@@ -159,9 +159,12 @@ We have come far, nonetheless we are not short of ideas on how to improve and ex
 - [ ] Custom searchable notes to videos, channels, playlists ([#144](https://github.com/tubearchivist/tubearchivist/issues/144))
 - [ ] Search comments
 - [ ] Search download queue
-- [ ] Configure shorts, streams and video sizes per channel
+- [ ] Per user videos/channel/playlists
 
 Implemented:
+- [X] Configure shorts, streams and video sizes per channel [2024-07-15]
+- [X] User created playlists [2024-04-10]
+- [X] User roles, aka read only user [2023-11-10]
 - [X] Add statistics of index [2023-09-03]
 - [X] Implement [Apprise](https://github.com/caronc/apprise) for notifications [2023-08-05]
 - [X] Download video comments [2022-11-30]
@@ -195,10 +198,6 @@ This is your time to shine, [read this](https://github.com/tubearchivist/tubearc
 - [danieljue/ta_dl_page_script](https://github.com/danieljue/ta_dl_page_script): Helper browser script to prioritize a channels' videos in download queue.
 - [dot-mike/ta-scripts](https://github.com/dot-mike/ta-scripts): A collection of personal scripts for managing TubeArchivist.
 - [DarkFighterLuke/ta_base_url_nginx](https://gist.github.com/DarkFighterLuke/4561b6bfbf83720493dc59171c58ac36): Set base URL with Nginx when you can't use subdomains.
-- [lamusmaser/ta_migration_helper](https://github.com/lamusmaser/ta_migration_helper): Advanced helper script for migration issues to TubeArchivist v0.4.4 or later.
-- [lamusmaser/create_info_json](https://gist.github.com/lamusmaser/837fb58f73ea0cad784a33497932e0dd): Script to generate `.info.json` files using `ffmpeg` collecting information from downloaded videos.
-- [lamusmaser/ta_fix_for_video_redirection](https://github.com/lamusmaser/ta_fix_for_video_redirection): Script to fix videos that were incorrectly indexed by YouTube's "Video is Unavailable" response. 
-- [RoninTech/ta-helper](https://github.com/RoninTech/ta-helper): Helper script to provide a symlink association to reference TubeArchivist videos with their original titles.
 
 ## Donate
 The best donation to **Tube Archivist** is your time, take a look at the [contribution page](CONTRIBUTING.md) to get started.  
@@ -210,6 +209,8 @@ Second best way to support the development is to provide for caffeinated beverag
 
 ## Notable mentions
 This is a selection of places where this project has been featured on reddit, in the news, blogs or any other online media, newest on top.
+* **xda-developers.com**: 5 obscure self-hosted services worth checking out - Tube Archivist - To save your essential YouTube videos, [2024-10-13][[link](https://www.xda-developers.com/obscure-self-hosted-services/)]
+* **selfhosted.show**: why we're trying Tube Archivist, [2024-06-14][[link](https://selfhosted.show/125)]
 * **ycombinator**: Tube Archivist on Hackernews front page, [2023-07-16][[link](https://news.ycombinator.com/item?id=36744395)]
 * **linux-community.de**: Tube Archivist bringt Ordnung in die Youtube-Sammlung, [German][2023-05-01][[link](https://www.linux-community.de/ausgaben/linuxuser/2023/05/tube-archivist-bringt-ordnung-in-die-youtube-sammlung/)]
 * **noted.lol**: Dev Debrief, An Interview With the Developer of Tube Archivist, [2023-03-30] [[link](https://noted.lol/dev-debrief-tube-archivist/)]
@@ -221,13 +222,3 @@ This is a selection of places where this project has been featured on reddit, in
 * **reddit.com**: Celebrating TubeArchivist v0.1, [2022-01-09] [[link](https://www.reddit.com/r/selfhosted/comments/rzh084/celebrating_tubearchivist_v01/)]
 * **linuxunplugged.com**: Pick: tubearchivist — Your self-hosted YouTube media server, [2021-09-11] [[link](https://linuxunplugged.com/425)] and [2021-10-05] [[link](https://linuxunplugged.com/426)]
 * **reddit.com**: Introducing Tube Archivist, your self hosted Youtube media server, [2021-09-12] [[link](https://www.reddit.com/r/selfhosted/comments/pmj07b/introducing_tube_archivist_your_self_hosted/)]
-
-
-## Sponsor
-Big thank you to [Digitalocean](https://www.digitalocean.com/) for generously donating credit for the tubearchivist.com VPS and buildserver. 
-<p>
-  <a href="https://www.digitalocean.com/">
-    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" width="201px">
-  </a>
-</p>
-

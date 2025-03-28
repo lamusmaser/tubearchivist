@@ -1,8 +1,9 @@
-## Contributing to Tube Archivist
+# Contributing to Tube Archivist
 
 Welcome, and thanks for showing interest in improving Tube Archivist!  
 
 ## Table of Content
+- [Beta Testing](#beta-testing)
 - [How to open an issue](#how-to-open-an-issue)
   - [Bug Report](#bug-report)
   - [Feature Request](#feature-request)
@@ -14,8 +15,21 @@ Welcome, and thanks for showing interest in improving Tube Archivist!
 - [Development Environment](#development-environment)
 ---
 
+## Beta Testing
+Be the first to help test new features and improvements and provide feedback! There are regular `:unstable` builds for easy access. That's for the tinkerers and the breave. Ideally use a testing environment first, before a release be the first to install it on your main system.
+
+There is always something that can get missed during development. Look at the commit messages tagged with `#build`, these are the unstable builds and give a quick overview what has changed.
+
+- Test the features mentioned, play around, try to break it.
+- Test the update path by installing the `:latest` release first, the upgrade to `:unstable` to check for any errors.
+- Test the unstable build on a fresh install.
+
+Then provide feedback, if there is a problem but also if there is no problem. Reach out on [Discord](https://tubearchivist.com/discord) in the `#beta-testing` channel with your findings.
+
+This will help with a smooth update for the regular release. Plus you get to test things out early! 
+
 ## How to open an issue
-Please read this carefully before opening any [issue](https://github.com/tubearchivist/tubearchivist/issues) on GitHub.
+Please read this carefully before opening any [issue](https://github.com/tubearchivist/tubearchivist/issues) on GitHub. Make sure you read [Next Steps](#next-steps) above.
 
 **Do**:
 - Do provide details and context, this matters a lot and makes it easier for people to help.
@@ -37,22 +51,7 @@ Please keep in mind:
 - A bug that can't be reproduced, is difficult or sometimes even impossible to fix. Provide very clear steps *how to reproduce*.
 
 ### Feature Request
-This project needs your help to grow further. There is no shortage of ideas, see the open [issues on GH](https://github.com/tubearchivist/tubearchivist/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement) and the [roadmap](https://github.com/tubearchivist/tubearchivist#roadmap), what this project lacks is contributors to implement these ideas.
-
-Existing ideas are easily *multiple years* worth of development effort, at least at current speed. Best and fastest way to implement your feature is to do it yourself, that's why this project is open source after all. This project is *very* selective with accepting new feature requests at this point.  
-
-Good feature requests usually fall into one or more of these categories:
-- You want to work on your own idea within the next few days or weeks.
-- Your idea is beneficial for a wide range of users, not just for you.
-- Your idea extends the current project by building on and improving existing functionality.
-- Your idea is quick and easy to implement, for an experienced as well as for a first time contributor.
-
-Your request is likely going to be rejected if:
-- Your idea requires multiple days worth of development time and is unrealistic to be implemented any time soon.
-- There are already other ways to do what you are trying to do.
-- You are trying to do something that only applies to your platform, your specific workflow or your specific setup.
-- Your idea would fundamentally change how the project works or it wouldn't be able to be implemented with backwards compatibility.
-- Your idea is not a good fit for this project.
+This project doesn't take any new feature requests. This project doesn't lack ideas, see the currently open tasks and roadmap. New feature requests aren't helpful at this point in time. Thank you for your understanding.
 
 ### Installation Help
 GitHub is most likely not the best place to ask for installation help. That's inherently individual and one on one.
@@ -66,26 +65,27 @@ IMPORTANT: When receiving help, contribute back to the community by improving th
 
 ## How to make a Pull Request
 
-Thank you for contributing and helping improve this project. This is a quick checklist to help streamline the process:
+Make sure you read [Next Steps](#next-steps) above.
+
+Thank you for contributing and helping improve this project. Focus for the foreseeable future is on improving and building on existing functionality, *not* on adding and expanding the application.
+
+This is a quick checklist to help streamline the process:
 
 - For **code changes**, make your PR against the [testing branch](https://github.com/tubearchivist/tubearchivist/tree/testing). That's where all active development happens. This simplifies the later merging into *master*, minimizes any conflicts and usually allows for easy and convenient *fast-forward* merging.
 - For **documentation changes**, make your PR directly against the *master* branch.
 - Show off your progress, even if not yet complete, by creating a [draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests#draft-pull-requests) PR first and switch it as *ready* when you are ready.
 - Make sure all your code is linted and formatted correctly, see below. The automatic GH action unfortunately needs to be triggered manually by a maintainer for first time contributors, but will trigger automatically for existing contributors.
 
-### Making changes to the JavaScript
-
-The JavaScript does not require any build step; you just edit the files directly. However, there is config for eslint and prettier (a linter and formatter respectively); their use is recommended but not required. To use them, install `node`, run `npm i` from the root directory of this repository to install dependencies, then run `npm run lint` and `npm run format` to run eslint and prettier respectively.
-
 ### Code formatting and linting
 
-To keep things clean and consistent for everybody, there is a github action setup to lint and check the changes. You can test your code locally first if you want. For example if you made changes in the **video** module, run
+This project uses the excellent [pre-commit](https://github.com/pre-commit/pre-commit) library. The [pre-commit-config.yml](https://github.com/tubearchivist/tubearchivist/blob/master/.pre-commit-config.yaml) file is part of this repo.
 
-```shell
-./deploy.sh validate tubearchivist/home/src/index/video.py
-```
+**Quick Start**
+- Run `pre-commit install` from the root of the repo.
+- Next time you commit to your local git repo, the defined hooks will run.
+- On first run, this will download and install the needed environments to your local machine, that can take some time. But that will be reused on sunsequent commits. 
 
-to validate your changes. If you omit the path, all the project files will get checked. This is subject to change as the codebase improves.
+That is also running as a Git Hub action.
 
 ---
 
@@ -118,15 +118,64 @@ Some of you might have created useful scripts or API integrations around this pr
 
 ## Improve to the Documentation
 
-The documentation available at [docs.tubearchivist.com](https://docs.tubearchivist.com/) and is build from a separate repo [tubearchivist/docs](https://github.com/tubearchivist/docs). The Readme has additional instructions on how to make changes.
+The documentation available at [docs.tubearchivist.com](https://docs.tubearchivist.com/) and is build from a separate repo [tubearchivist/docs](https://github.com/tubearchivist/docs). The Readme there has additional instructions on how to make changes.
 
 ---
 
 ## Development Environment
 
-I have learned the hard way, that working on a dockerized application outside of docker is very error prone and in general not a good idea. So if you want to test your changes, it's best to run them in a docker testing environment. You might be able to run the application directly, but this document assumes you're using docker.
+This codebase is set up to be developed natively outside of docker as well as in a docker container. Developing outside of a docker container can be convenient, as IDE and hot reload usually works out of the box. But testing inside of a container is still essential, as there are subtle differences, especially when working with the filesystem and networking between containers.
 
-### Instructions
+Note:
+- Subtitles currently fail to load with `DJANGO_DEBUG=True`, that is due to incorrect `Content-Type` error set by Django's static file implementation. That's only if you run the Django dev server, Nginx sets the correct headers.
+
+### Native Instruction
+
+For convenience, it's recommended to still run Redis and ES in a docker container. Make sure both containers can be reachable over the network.
+
+Set up your virtual environment and install the requirements defined in `requirements-dev.txt`.
+
+There are options built in to load environment variables from a file using `load_dotenv`. Example `.env` file to place in the same folder as `manage.py`:
+
+```
+TA_HOST="localhost"
+TA_USERNAME=tubearchivist
+TA_PASSWORD=verysecret
+TA_MEDIA_DIR="static/volume/media"
+TA_CACHE_DIR="static"
+TA_APP_DIR="."
+REDIS_CON=redis://localhost:6379
+ES_URL="http://localhost:9200"
+ELASTIC_PASSWORD=verysecret
+TZ=America/New_York
+DJANGO_DEBUG=True
+```
+
+Then look at the container startup script `run.sh`, make sure all needed migrations and startup checks ran. To start the dev backend server from the same folder as `manage.py` run:
+
+```bash
+python manage.py runserver
+```
+
+The backend will be available on [localhost:8000/api/](localhost:8000/api/).
+
+You'll probably also want to have a Celery worker instance running, refer to `run.sh` for that. The Beat Scheduler might not be needed.
+
+Then from the frontend folder, install the dependencies with:
+
+```bash
+npm install
+```
+
+Then to start the frontend development server:
+
+```bash
+npm run dev
+```
+
+And the frontend should be available at [localhost:3000](localhost:3000).
+
+### Docker Instructions
 
 Set up docker on your development machine.
 
@@ -142,11 +191,11 @@ Make your changes locally and re-run `docker compose up --build`. The `Dockerfil
 
 ### Develop environment inside a VM
 
-You may find it nice to run everything inside of a VM, though this is not necessary. There's a `deploy.sh` script which has some helpers for this use case. YMMV, this is what one of the developers does:
+You may find it nice to run everything inside of a VM for complete environment snapshots and encapsulation, though this is not strictly necessary. There's a `deploy.sh` script which has some helpers for this use case:
 
-- Clone the repo, work on it with your favorite code editor in your local filesystem. *testing* branch is where all the changes are happening, might be unstable and is WIP.
-- Then I have a VM running standard Ubuntu Server LTS with docker installed. The VM keeps my projects separate and offers convenient snapshot functionality. The VM also offers ways to simulate low end environments by limiting CPU cores and memory. You can use this [Ansible Docker Ubuntu](https://github.com/bbilly1/ansible-playbooks) playbook to get started quickly. But you could also just run docker on your host system.
-- I have my local DNS resolve `tubearchivist.local` to the IP of the VM for convenience. To deploy the latest changes and rebuild the application to the testing VM run:
+- This assumes a standard Ubuntu Server VM with docker and docker compose already installed.
+- Configure your local DNS to resolve `tubearchivist.local` to the IP of the VM.
+- To deploy the latest changes and rebuild the application to the testing VM run:
 ```bash
 ./deploy.sh test
 ```
@@ -177,3 +226,19 @@ services:
 ```
 
 If you want to run queries on the Elasticsearch container directly from your host with for example `curl` or something like *postman*, you might want to **publish** the port 9200 instead of just **exposing** it.
+
+**Persist Token**  
+The token will get stored in ES in the `config` folder, and not in the `data` folder. To persist the token between ES container rebuilds, you'll need to persist the config folder as an additional volume:
+
+1. Create the token as described above
+2. While the container is running, copy the current config folder out of the container, e.g.: 
+```
+docker cp archivist-es:/usr/share/elasticsearch/config/ volume/es_config
+```
+3. Then stop all containers and mount this folder into the container as an additional volume:
+```yml
+- ./volume/es_config:/usr/share/elasticsearch/config
+```
+4. Start all containers back up.
+
+Now your token will persist between ES container rebuilds.
